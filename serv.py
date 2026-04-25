@@ -1,21 +1,32 @@
+# Server code
 from socket import *
 
-serverPort = int(input("Port: "))
+# The port on which to listen
+serverPort = 12000
+
+# Create a TCP socket
 serverSocket = socket(AF_INET, SOCK_STREAM)
+
+# Bind the socket to the port
 serverSocket.bind(('', serverPort))
+
+# Start listening for incoming connections
 serverSocket.listen(1)
 
-print("Server ready")
+print "The server is ready to receive"
 
-while True:
+# The buffer to store the received data
+data = ""
+
+# Forever accept incoming connections
+while 1:
+    # Accept a connection; get client’s socket
     connectionSocket, addr = serverSocket.accept()
-    print("Connected:", addr)
 
-    while True:
-        data = connectionSocket.recv(1024).decode()
-        if not data:
-            break
-        print("Client:", data)
-        connectionSocket.send("OK".encode())
+    # Receive whatever the newly connected client has to send
+    data = connectionSocket.recv(40)
 
+    print data
+
+    # Close the socket
     connectionSocket.close()
