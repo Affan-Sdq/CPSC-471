@@ -1,20 +1,21 @@
+# Client code
 from socket import *
-import sys
 
-serverName = sys.argv[1]
-serverPort = int(sys.argv[2])
+# Name and port number of the server
+serverName = "ecs.fullerton.edu"
+serverPort = 12000
 
+# Create a socket
 clientSocket = socket(AF_INET, SOCK_STREAM)
+
+# Connect to the server
 clientSocket.connect((serverName, serverPort))
 
-while True:
-    cmd = input("ftp> ")
-    clientSocket.send(cmd.encode())
+# A string we want to send to the server
+data = "Hello world! This is a very long string."
 
-    if cmd == "quit":
-        break
+# Send that string!
+clientSocket.send(data)
 
-    response = clientSocket.recv(1024).decode()
-    print("Server:", response)
-
+# Close the socket
 clientSocket.close()
